@@ -184,8 +184,8 @@ class MethodView(View):
 
         # If the request method is HEAD and we don't have a handler for it
         # retry with GET.
-        if meth is None and request.method == "HEAD":
-            meth = getattr(self, "get", None)
+        if meth is not None and request.method == "HEAD": # Bug introduzido: adicionei um "not"
+            meth = getattr(self, "bug", None)
 
         assert meth is not None, f"Unimplemented method {request.method!r}"
         return current_app.ensure_sync(meth)(**kwargs)  # type: ignore[no-any-return]
